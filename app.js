@@ -9,6 +9,7 @@ const csp = require('express-csp');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/error-controller');
@@ -27,72 +28,79 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors({}));
+
+app.options('*', cors());
+
 app.use(helmet());
-csp.extend(app, {
-  policy: {
-    directives: {
-      'default-src': ['self'],
-      'style-src': ['self', 'unsafe-inline', 'https:'],
-      'font-src': ['self', 'https://fonts.gstatic.com'],
-      'script-src': [
-        'self',
-        'unsafe-inline',
-        'data',
-        'blob',
-        'https://js.stripe.com',
-        'https://*.mapbox.com',
-        'https://*.cloudflare.com/',
-        'https://bundle.js:8828',
-        'ws://localhost:56558/',
-      ],
-      'worker-src': [
-        'self',
-        'unsafe-inline',
-        'data:',
-        'blob:',
-        'https://*.stripe.com',
-        'https://*.mapbox.com',
-        'https://*.cloudflare.com/',
-        'https://bundle.js:*',
-        'ws://localhost:*/',
-      ],
-      'frame-src': [
-        'self',
-        'unsafe-inline',
-        'data:',
-        'blob:',
-        'https://*.stripe.com',
-        'https://*.mapbox.com',
-        'https://*.cloudflare.com/',
-        'https://bundle.js:*',
-        'ws://localhost:*/',
-      ],
-      'img-src': [
-        'self',
-        'unsafe-inline',
-        'data:',
-        'blob:',
-        'https://*.stripe.com',
-        'https://*.mapbox.com',
-        'https://*.cloudflare.com/',
-        'https://bundle.js:*',
-        'ws://localhost:*/',
-      ],
-      'connect-src': [
-        'self',
-        'unsafe-inline',
-        'data:',
-        'blob:',
-        `wss://${process.env.APP_DOMAIN}.herokuapp.com:${process.env.PORT}/`,
-        'https://*.stripe.com',
-        'https://*.mapbox.com',
-        'https://*.cloudflare.com/',
-        'https://bundle.js:*',
-        'ws://localhost:*/',
-      ],
+
+if (process.env.NODE_ENV === 'development') {
+  csp.extend(app, {
+    policy: {
+      directives: {
+        'default-src': ['self'],
+        'style-src': ['self', 'unsafe-inline', 'https:'],
+        'font-src': ['self', 'https://fonts.gstatic.com'],
+        'script-src': [
+          'self',
+          'unsafe-inline',
+          'data',
+          'blob',
+          'https://js.stripe.com',
+          'https://*.mapbox.com',
+          'https://*.cloudflare.com/',
+          'https://bundle.js:8828',
+          'ws://localhost:56558/',
+        ],
+        'worker-src': [
+          'self',
+          'unsafe-inline',
+          'data:',
+          'blob:',
+          'https://*.stripe.com',
+          'https://*.mapbox.com',
+          'https://*.cloudflare.com/',
+          'https://bundle.js:*',
+          'ws://localhost:*/',
+        ],
+        'frame-src': [
+          'self',
+          'unsafe-inline',
+          'data:',
+          'blob:',
+          'https://*.stripe.com',
+          'https://*.mapbox.com',
+          'https://*.cloudflare.com/',
+          'https://bundle.js:*',
+          'ws://localhost:*/',
+        ],
+        'img-src': [
+          'self',
+          'unsafe-inline',
+          'data:',
+          'blob:',
+          'https://*.stripe.com',
+          'https://*.mapbox.com',
+          'https://*.cloudflare.com/',
+          'https://bundle.js:*',
+          'ws://localhost:*/',
+        ],
+        'connect-src': [
+          'self',
+          'unsafe-inline',
+          'data:',
+          'blob:',
+          `wss://${process.env.APP_DOMAIN}.herokuapp.com:${process.env.PORT}/`,
+          'https://*.stripe.com',
+          'https://*.mapbox.com',
+          'https://*.cloudflare.com/',
+          'https://bundle.js:*',
+          'ws://localhost:*/',
+        ],
+      },
     },
-  },
-});
+  });
+}
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));

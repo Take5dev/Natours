@@ -20,6 +20,8 @@ const reviewRouter = require('./routes/review-routes');
 const bookingRouter = require('./routes/booking-routes');
 const viewRouter = require('./routes/view-routes');
 
+const { webhookCheckout } = require('./controllers/booking-controller');
+
 const app = express();
 
 app.enable('trust proxy');
@@ -110,6 +112,12 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP',
 });
 app.use('/api', limiter);
+
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  webhookCheckout
+);
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));

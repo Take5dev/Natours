@@ -8,9 +8,7 @@ import { showAlert } from './alert';
 
 export const bookTour = async (tourID) => {
   try {
-    const session = await axios(
-      `/api/v1/bookings/checkout-session/5c88fa8cf4afda39709c2951`
-    );
+    const session = await axios(`/api/v1/bookings/checkout-session/${tourID}`);
     //console.log(session.data.data.session.url);
     location.replace(session.data.data.session.url);
   } catch (err) {

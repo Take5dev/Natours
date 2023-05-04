@@ -1,0 +1,17 @@
+doctype html
+html(lang='en')
+    block head
+        include _head
+
+    body
+        // HEADER
+        include _header
+
+        // CONTENT
+        block content
+            main.main
+                h1 This is a placeholder for content
+
+        // FOOTER
+        block footer
+            include _footer

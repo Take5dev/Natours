@@ -21,7 +21,7 @@ const viewRouter = require('./routes/view-routes');
 
 const app = express();
 
-app.enable('trust proxy')
+app.enable('trust proxy');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -83,7 +83,7 @@ csp.extend(app, {
         'unsafe-inline',
         'data:',
         'blob:',
-        `wss://${process.env.APP_DOMAIN}.herokuapp.com:${${process.env.PORT}}/`,
+        `wss://${process.env.APP_DOMAIN}.herokuapp.com:${process.env.PORT}/`,
         'https://*.stripe.com',
         'https://*.mapbox.com',
         'https://*.cloudflare.com/',

@@ -3,7 +3,7 @@ html(lang='en')
     block head
         include _head
 
-    body
+    body(data-alert=`${alert ? alert: ''}`)
         // HEADER
         include _header
 

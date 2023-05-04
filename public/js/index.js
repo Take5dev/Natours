@@ -3,6 +3,7 @@
 import '@babel/polyfill';
 import { login, logout } from './login';
 import { updateSettings } from './updateUser';
+import { showAlert } from './alert';
 import { displayMap } from './mapbox';
 import { bookTour } from './stripe';
 
@@ -71,4 +72,9 @@ if (bookBtn) {
     const tourID = e.target.dataset.tourid;
     bookTour(tourID);
   });
+}
+
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alertMessage) {
+  showAlert('success', alertMessage, 10);
 }

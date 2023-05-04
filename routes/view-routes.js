@@ -1,6 +1,7 @@
 const express = require('express');
 
 const {
+  alerts,
   getOverview,
   getTourBySlug,
   getLoginPage,
@@ -11,6 +12,8 @@ const { protect, isLoggedIn } = require('../controllers/auth-controller');
 //const { createBookingCheckout } = require('../controllers/booking-controller');
 
 const router = express.Router();
+
+router.use(alerts);
 
 router.get('/me', protect, getUserAccount);
 

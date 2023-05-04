@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const csp = require('express-csp');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/error-controller');
@@ -120,6 +121,8 @@ app.use(
     ],
   })
 );
+
+app.use(compression());
 
 // app.use((req, res, next) => {
 //   console.log('hello from Middleware');
